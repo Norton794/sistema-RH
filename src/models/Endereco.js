@@ -3,12 +3,14 @@ const sqlite3 = require('sqlite3').verbose();
 
 const dbPath = path.resolve(__dirname, '../db/db.sqlite');
 
-class Cargo {
-    constructor(id, nome, descricao) {
+class Endereco {
+    constructor(id, rua, numero, cidade, estado) {
         this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-    }
+        this.rua = rua;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.estado = estado;
+      }
 }
 
 function initializeDB() {
@@ -18,10 +20,14 @@ function initializeDB() {
         } else {
             console.log('Conectado ao banco de dados SQLite.');
             db.run(`
-            CREATE TABLE IF NOT EXISTS Cargo (
+            CREATE TABLE IF NOT EXISTS Endereco (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              nome TEXT,
-              descricao TEXT
+              rua TEXT,
+              numero TEXT,
+              complemento TEXT,
+              cidade TEXT,
+              estado TEXT,
+              cep TEXT
             )
           `);
         }
@@ -30,4 +36,4 @@ function initializeDB() {
 
 initializeDB();
 
-module.exports = Cargo;
+module.exports = Endereco;
