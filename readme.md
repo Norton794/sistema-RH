@@ -212,6 +212,12 @@ Inicie o servidor
   npm run start
 ```
 
+Acesso
+
+```bash
+  http://localhost:8080
+```
+
 
 ## Stack utilizada
 
