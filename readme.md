@@ -197,7 +197,7 @@ Clone o projeto
 Entre no diretório do projeto
 
 ```bash
-  cd sistemaRH
+  cd sistema-RH
 ```
 
 Instale as dependências
