@@ -1,10 +1,7 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-
-const dbPath = path.resolve(__dirname, '../db/db.sqlite');
+const dbSetup = require('../db/dbSetup');
 
 function createCargo(nome, descricao, callback) {
-    const db = new sqlite3.Database(dbPath);
+    const db = dbSetup.getDB();
 
     const sql = `
     INSERT INTO Cargo (nome, descricao)
@@ -12,7 +9,7 @@ function createCargo(nome, descricao, callback) {
   `;
 
     db.run(sql, [nome, descricao], (err) => {
-        db.close();
+    
         if (err) {
             return callback(err);
         }
@@ -21,14 +18,14 @@ function createCargo(nome, descricao, callback) {
 }
 
 function getAllCargos(callback) {
-    const db = new sqlite3.Database(dbPath);
+    const db = dbSetup.getDB();
 
     const sql = `
     SELECT * FROM Cargo
   `;
 
     db.all(sql, (err, rows) => {
-        db.close();
+    
         if (err) {
             return callback(err, null);
         }
@@ -37,14 +34,14 @@ function getAllCargos(callback) {
 }
 
 function getCargoById(id, callback) {
-    const db = new sqlite3.Database(dbPath);
+    const db = dbSetup.getDB();
 
     const sql = `
     SELECT * FROM Cargo WHERE id = ?
   `;
 
     db.get(sql, [id], (err, row) => {
-        db.close();
+    
         if (err) {
             return callback(err, null);
         }
@@ -53,7 +50,7 @@ function getCargoById(id, callback) {
 }
 
 function updateCargo(id, nome, descricao, callback) {
-    const db = new sqlite3.Database(dbPath);
+    const db = dbSetup.getDB();
 
     const sql = `
     UPDATE Cargo
@@ -62,7 +59,7 @@ function updateCargo(id, nome, descricao, callback) {
   `;
 
     db.run(sql, [nome, descricao, id], (err) => {
-        db.close();
+    
         if (err) {
             return callback(err);
         }
@@ -71,14 +68,14 @@ function updateCargo(id, nome, descricao, callback) {
 }
 
 function deleteCargo(id, callback) {
-    const db = new sqlite3.Database(dbPath);
+    const db = dbSetup.getDB();
 
     const sql = `
     DELETE FROM Cargo WHERE id = ?
   `;
 
     db.run(sql, [id], (err) => {
-        db.close();
+    
         if (err) {
             return callback(err);
         }

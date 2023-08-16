@@ -1,18 +1,14 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const dbSetup = require('../db/dbSetup');
 
-const dbPath = path.resolve(__dirname, '../db/db.sqlite');
-
-function createEndereco(rua, numero, cidade, estado, callback) {
-  const db = new sqlite3.Database(dbPath);
+function createEndereco(rua, numero, complemento, cidade, estado, cep, callback) {
+  const db = dbSetup.getDB();
 
   const sql = `
-    INSERT INTO Endereco (rua, numero, cidade, estado)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO Endereco (rua, numero, complemento, cidade, estado, cep)
+    VALUES (?, ?, ?, ?, ?, ?)
   `;
 
-  db.run(sql, [rua, numero, cidade, estado], (err) => {
-    db.close();
+  db.run(sql, [rua, numero, complemento, cidade, estado, cep], (err) => {
     if (err) {
       return callback(err);
     }
@@ -21,14 +17,13 @@ function createEndereco(rua, numero, cidade, estado, callback) {
 }
 
 function getAllEnderecos(callback) {
-  const db = new sqlite3.Database(dbPath);
+  const db = dbSetup.getDB();
 
   const sql = `
     SELECT * FROM Endereco
   `;
 
   db.all(sql, (err, rows) => {
-    db.close();
     if (err) {
       return callback(err, null);
     }
@@ -37,14 +32,13 @@ function getAllEnderecos(callback) {
 }
 
 function getEnderecoById(id, callback) {
-  const db = new sqlite3.Database(dbPath);
+  const db = dbSetup.getDB();
 
   const sql = `
     SELECT * FROM Endereco WHERE id = ?
   `;
 
   db.get(sql, [id], (err, row) => {
-    db.close();
     if (err) {
       return callback(err, null);
     }
@@ -52,17 +46,17 @@ function getEnderecoById(id, callback) {
   });
 }
 
-function updateEndereco(id, rua, numero, cidade, estado, callback) {
-    const db = new sqlite3.Database(dbPath);
+function updateEndereco(id, rua, numero, complemento, cidade, estado, cep, callback) {
+    const db = dbSetup.getDB();
   
     const sql = `
       UPDATE Endereco
-      SET rua = ?, numero = ?, cidade = ?, estado = ?
+      SET rua = ?, numero = ?, complemento = ?, cidade = ?, estado = ?, cep = ?
       WHERE id = ?
     `;
   
-    db.run(sql, [rua, numero, cidade, estado, id], (err) => {
-      db.close();
+    db.run(sql, [rua, numero, complemento, cidade, estado, cep, id], (err) => {
+
       if (err) {
         return callback(err);
       }
@@ -71,14 +65,14 @@ function updateEndereco(id, rua, numero, cidade, estado, callback) {
   }
   
   function deleteEndereco(id, callback) {
-    const db = new sqlite3.Database(dbPath);
+    const db = dbSetup.getDB();
   
     const sql = `
       DELETE FROM Endereco WHERE id = ?
     `;
   
     db.run(sql, [id], (err) => {
-      db.close();
+
       if (err) {
         return callback(err);
       }

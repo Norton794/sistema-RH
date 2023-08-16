@@ -1,39 +1,13 @@
-const path = require('path');
-const sqlite3 = require('sqlite3').verbose();
-
-const dbPath = path.resolve(__dirname, '../db/db.sqlite');
-
 class Endereco {
-    constructor(id, rua, numero, cidade, estado) {
+    constructor(id, rua, numero, complemento, cidade, estado, cep) {
         this.id = id;
         this.rua = rua;
+        this.complemento = complemento;
         this.numero = numero;
         this.cidade = cidade;
         this.estado = estado;
+        this.cep = cep;
       }
 }
-
-function initializeDB() {
-    const db = new sqlite3.Database(dbPath, (err) => {
-        if (err) {
-            console.error('Erro ao abrir o banco de dados:', err.message);
-        } else {
-            console.log('Conectado ao banco de dados SQLite.');
-            db.run(`
-            CREATE TABLE IF NOT EXISTS Endereco (
-              id INTEGER PRIMARY KEY AUTOINCREMENT,
-              rua TEXT,
-              numero TEXT,
-              complemento TEXT,
-              cidade TEXT,
-              estado TEXT,
-              cep TEXT
-            )
-          `);
-        }
-    });
-}
-
-initializeDB();
 
 module.exports = Endereco;

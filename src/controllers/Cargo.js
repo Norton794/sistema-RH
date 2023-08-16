@@ -2,10 +2,10 @@ const CargoService = require('../services/Cargo');
 
 function createCargo(req, res) {
   const { nome, descricao } = req.body;
-
+  
   CargoService.createCargo(nome, descricao, (err) => {
     if (err) {
-      res.status(500).json({ error: 'Erro ao criar cargo no banco de dados.' });
+      res.status(500).json({ error: 'Erro ao criar cargo no banco de dados.'+err.message });
     } else {
       res.status(201).json({ message: 'Cargo criado com sucesso.' });
     }

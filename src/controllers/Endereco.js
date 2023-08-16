@@ -1,9 +1,9 @@
 const EnderecoService = require('../services/Endereco');
 
 function createEndereco(req, res) {
-  const { rua, numero, cidade, estado } = req.body;
+  const { rua, numero, complemento, cidade, estado, cep } = req.body;
 
-  EnderecoService.createEndereco(rua, numero, cidade, estado, (err) => {
+  EnderecoService.createEndereco(rua, numero, complemento, cidade, estado, cep, (err) => {
     if (err) {
       res.status(500).json({ error: 'Erro ao criar endereço no banco de dados.' });
     } else {
@@ -38,9 +38,9 @@ function getEnderecoById(req, res) {
 
 function updateEndereco(req, res) {
     const id = req.params.id;
-    const { rua, numero, cidade, estado } = req.body;
+    const { rua, numero, complemento, cidade, estado, cep } = req.body;
   
-    EnderecoService.updateEndereco(id, rua, numero, cidade, estado, (err) => {
+    EnderecoService.updateEndereco(id, rua, numero, complemento, cidade, estado, cep, (err) => {
       if (err) {
         res.status(500).json({ error: 'Erro ao atualizar endereço no banco de dados.' });
       } else {

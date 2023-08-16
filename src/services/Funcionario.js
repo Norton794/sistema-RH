@@ -1,10 +1,7 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-
-const dbPath = path.resolve(__dirname, '../db/db.sqlite');
+const dbSetup = require('../db/dbSetup');
 
 function createFuncionario(nome, dataNascimento, cpf, salario, cargoId, enderecoId, callback) {
-  const db = new sqlite3.Database(dbPath);
+  const db = dbSetup.getDB();
 
   const sql = `
     INSERT INTO Funcionario (nome, dataNascimento, cpf, salario, cargoId, enderecoId)
@@ -12,7 +9,7 @@ function createFuncionario(nome, dataNascimento, cpf, salario, cargoId, endereco
   `;
 
   db.run(sql, [nome, dataNascimento, cpf, salario, cargoId, enderecoId], (err) => {
-    db.close();
+    
     if (err) {
       return callback(err);
     }
@@ -21,14 +18,14 @@ function createFuncionario(nome, dataNascimento, cpf, salario, cargoId, endereco
 }
 
 function getAllFuncionarios(callback) {
-  const db = new sqlite3.Database(dbPath);
+  const db = dbSetup.getDB();
 
   const sql = `
     SELECT * FROM Funcionario
   `;
 
   db.all(sql, (err, rows) => {
-    db.close();
+   
     if (err) {
       return callback(err, null);
     }
@@ -37,14 +34,14 @@ function getAllFuncionarios(callback) {
 }
 
 function getFuncionarioById(id, callback) {
-  const db = new sqlite3.Database(dbPath);
+  const db = dbSetup.getDB();
 
   const sql = `
     SELECT * FROM Funcionario WHERE id = ?
   `;
 
   db.get(sql, [id], (err, row) => {
-    db.close();
+   
     if (err) {
       return callback(err, null);
     }
@@ -53,7 +50,7 @@ function getFuncionarioById(id, callback) {
 }
 
 function updateFuncionario(id, nome, dataNascimento, cpf, salario, cargoId, enderecoId, callback) {
-  const db = new sqlite3.Database(dbPath);
+  const db = dbSetup.getDB();
 
   const sql = `
     UPDATE Funcionario
@@ -62,7 +59,7 @@ function updateFuncionario(id, nome, dataNascimento, cpf, salario, cargoId, ende
   `;
 
   db.run(sql, [nome, dataNascimento, cpf, salario, cargoId, enderecoId, id], (err) => {
-    db.close();
+    
     if (err) {
       return callback(err);
     }
@@ -71,14 +68,14 @@ function updateFuncionario(id, nome, dataNascimento, cpf, salario, cargoId, ende
 }
 
 function deleteFuncionario(id, callback) {
-  const db = new sqlite3.Database(dbPath);
+  const db = dbSetup.getDB();
 
   const sql = `
     DELETE FROM Funcionario WHERE id = ?
   `;
 
   db.run(sql, [id], (err) => {
-    db.close();
+    
     if (err) {
       return callback(err);
     }
